@@ -34,7 +34,7 @@ public class Main extends Application {
         sair.getStyleClass().add("botao");
 
         VBox botoes=new VBox(20,jogar,sair);
-        botoes.layoutXProperty().bind(fundo.widthProperty().multiply(0.01));
+        botoes.layoutXProperty().bind(fundo.widthProperty().multiply(0.09));
         botoes.layoutYProperty().bind(fundo.heightProperty().multiply(0.45));
 
         fundo.getChildren().addAll(titulo,botoes);

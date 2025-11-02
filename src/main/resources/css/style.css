@@ -43,7 +43,7 @@
 
 
 .jogoLayout{
-     -fx-background-color: green;
+     -fx-background-color: black;
     -fx-background-image: url("../images/NOVAIMG.png");
     -fx-background-size: contain;
     -fx-background-position: center;
@@ -53,27 +53,39 @@
 
 .player{
 
-    -fx-background-color: green;
+   // -fx-background-color: rgba(0,0,0,0.4);
 
 }
 
 .bot1{
--fx-background-color: black;
+    //-fx-background-color: rgba(0,0,0,0.4);
 
 }
 
 .bot2{
--fx-background-color: green;
+    //-fx-background-color: rgba(0,0,0,0.4);
 }
 
+.bot3{
+    //-fx-background-color: rgba(0,0,0,0.4);
+}
 
 .mesa{
--fx-background-color: black;
+    //-fx-background-color: rgba(0,0,0,0.4);
 }
 
 
 
+.fichabot{
 
+    -fx-background-color: transparent;
+     -fx-padding: 0;
+      -fx-border-width: 0;
+
+}
+.fichabot:hover {
+     -fx-opacity: 0.6;
+}
 
 
 
