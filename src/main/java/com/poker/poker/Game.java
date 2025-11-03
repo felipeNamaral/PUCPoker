@@ -1,11 +1,10 @@
 package com.poker.poker;
 
-import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -14,7 +13,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javafx.scene.media.AudioClip;
-import javafx.util.Duration;
 
 
 public class Game {
@@ -46,6 +44,9 @@ public class Game {
         HBox cartas = new HBox(20);
         cartas.setPrefSize(100,200);
         cartas.relocate(10,60);
+        Label fichas = new Label("Fichas:"+jogador.getPontos());
+        fichas.getStyleClass().add("fichas");
+        fichas.relocate(70,250);
 
 
         AudioClip somHover = new AudioClip(getClass().getResource("/sounds/hoverButton.mp3").toExternalForm()) ;
@@ -128,7 +129,7 @@ public class Game {
 
 
 
-        player.getChildren().addAll(avatarView,cartas,hboxFichas);
+        player.getChildren().addAll(avatarView,cartas,hboxFichas,fichas);
 
 
 
@@ -145,7 +146,10 @@ public class Game {
         HBox cartasBot1 = new HBox(20);
         cartasBot1.setPrefSize(100,200);
         cartasBot1.relocate(50,160);
-        bot1.getChildren().addAll(avatarViewbot1,cartasBot1);
+        Label bot1fichas = new Label("Fichas:"+jbot1.getPontos());
+        bot1fichas.getStyleClass().add("fichas");
+        bot1fichas.relocate(60,300);
+        bot1.getChildren().addAll(avatarViewbot1,cartasBot1,bot1fichas);
 
 
         Pane bot2 = new Pane();
@@ -159,7 +163,10 @@ public class Game {
         HBox cartasBot2 = new HBox(20);
         cartasBot2.setPrefSize(100,200);
         cartasBot2.relocate(35,160);
-        bot2.getChildren().addAll(avatarViewbot2,cartasBot2);
+        Label bot2fichas = new Label("Fichas:"+jbot2.getPontos());
+        bot2fichas.getStyleClass().add("fichas");
+        bot2fichas.relocate(60,300);
+        bot2.getChildren().addAll(avatarViewbot2,cartasBot2,bot2fichas);
 
 
 
@@ -174,7 +181,10 @@ public class Game {
         HBox cartasbot3 = new HBox(20);
         cartasbot3.setPrefSize(100,200);
         cartasbot3.relocate(175,60);
-        bot3.getChildren().addAll(avatarViewbot3,cartasbot3);
+        Label bot3fichas = new Label("Fichas:"+jbot3.getPontos());
+        bot3fichas.getStyleClass().add("fichas");
+        bot3fichas.relocate(70,200);
+        bot3.getChildren().addAll(avatarViewbot3,cartasbot3,bot3fichas);
 
 
 
@@ -193,16 +203,6 @@ public class Game {
 
 
 
-
-
-
-
-
-
-
-
-
-
         jogoLayout.getStyleClass().add("jogoLayout");
         bot3.getStyleClass().add("player");
         bot1.getStyleClass().add("bot1");
@@ -218,94 +218,23 @@ public class Game {
         jogoLayout.getChildren().addAll(player,bot3,bot1,bot2,mesa);
 
 
-
-        DeckOfCards baralho = new DeckOfCards();
-        baralho.shuffle();
-
-
-
-        jogador.fistHand(baralho.dealCard(),baralho.dealCard());
-        jbot1.fistHand(baralho.dealCard(),baralho.dealCard());
-        jbot2.fistHand(baralho.dealCard(),baralho.dealCard());
-        jbot3.fistHand(baralho.dealCard(),baralho.dealCard());
-
-        double duracao = 3; // tempo de espera para cada jogador
-
-// Lista de animações para criar sequência
-        SequentialTransition sequencia = new SequentialTransition();
-
-// Jogador principal
-        PauseTransition delayJogador = new PauseTransition(Duration.seconds(1));
-        delayJogador.setOnFinished(e -> jogador.mostrarMao(cartas));
-        sequencia.getChildren().add(delayJogador);
-
-// Bot 3
-        PauseTransition delayBot3 = new PauseTransition(Duration.seconds(1));
-        delayBot3.setOnFinished(e -> jbot3.mostrarMao(cartasbot3));
-        sequencia.getChildren().add(delayBot3);
-
-// Bot 1
-        PauseTransition delayBot1 = new PauseTransition(Duration.seconds(1));
-        delayBot1.setOnFinished(e -> jbot1.mostrarMao(cartasBot1));
-        sequencia.getChildren().add(delayBot1);
-
-// Bot 2
-        PauseTransition delayBot2 = new PauseTransition(Duration.seconds(1));
-        delayBot2.setOnFinished(e -> jbot2.mostrarMao(cartasBot2));
-        sequencia.getChildren().add(delayBot2);
-
-// Mesa (cartas comunitárias)
-        PauseTransition delayMesa = new PauseTransition(Duration.seconds(7));
-        delayMesa.setOnFinished(e -> {
-            jogador.adicionarCarta(baralho.dealCard());
-            jogador.adicionarCarta(baralho.dealCard());
-            jogador.adicionarCarta(baralho.dealCard());
-            jogador.mostrarMao(cartasMesa);
-        });
-        sequencia.getChildren().add(delayMesa);
-
-// Inicia a sequência
-        sequencia.play();
-
-
-
-
-
-
-
-
-
-
+        PokerEngine engine = new PokerEngine(
+                jogador,jbot1,jbot2,jbot3,player,bot1,bot2,bot3,mesa,dez,vinteCinco,cinquenta,cem,quinhentos
+                ,cartas,cartasBot1,cartasBot2,cartasbot3, cartasMesa
+        );
 
 
 
         Scene jogoScene = new Scene(jogoLayout,screenBounds.getWidth(),screenBounds.getHeight());
         jogoScene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setScene(jogoScene);
-        stage.setFullScreen(true);
+        stage.setResizable(false);
         stage.show();
 
 
 
     }
 
-
-
-    private void jogo(){
-        boolean jogando = true;
-        DeckOfCards baralho = new DeckOfCards();
-
-        while(jogando){
-            baralho.shuffle();
-
-
-
-        }
-
-
-
-
-    }
 
 
 
