@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.*;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,54 +14,19 @@ import javafx.stage.Screen;
 import javafx.util.Duration;
 
 public class Jogador {
-    private int pontos = 0;
-    private String nome;
+    private final SimpleIntegerProperty fichas = new SimpleIntegerProperty(20000);
+    private final String nome;
     protected  List<Card> mao = new ArrayList<>();
-    private int aces =0;
+    private boolean ativo = true;
+    private boolean fold = false;
+    private int apostaRodada = 0;
+
+
+
     public Jogador(String nome) {
         this.nome = nome;
-        this.pontos =20000;
     }
 
-    public void adicionarCarta(Card carta) {
-        mao.add(carta);
-        if (carta.getFace().equals("Ace")) {
-            pontos += 11;
-            aces++;
-        } else if (carta.getFace().equals("2")) {
-            pontos += 2;
-        } else if (carta.getFace().equals("3")) {
-            pontos += 3;
-        } else if (carta.getFace().equals("4")) {
-            pontos += 4;
-        } else if (carta.getFace().equals("5")) {
-            pontos += 5;
-        } else if (carta.getFace().equals("6")) {
-            pontos += 6;
-        } else if (carta.getFace().equals("7")) {
-            pontos += 7;
-        } else if (carta.getFace().equals("8")) {
-            pontos += 8;
-        } else if (carta.getFace().equals("9")) {
-            pontos += 9;
-        } else {
-            pontos += 10;
-        }
-
-        while (pontos > 21 && aces > 0) {
-            pontos -= 10;
-            aces--;
-        }
-    }
-
-
-    public void mostrarMao() {
-        System.out.println(nome + " tem as cartas:");
-        for (Card c : mao) {
-            System.out.println("  " + c);
-        }
-        System.out.println("Total de pontos: " + pontos);
-    }
 
 
     public void mostrarMao(HBox container) {
@@ -136,28 +102,101 @@ public class Jogador {
 
 
 
-    public void Hit(Card carta) {
-        adicionarCarta(carta);
-    }
-
-    public void resetMao() {
-        mao.clear();
-        pontos = 0;
-    }
-
     public void fistHand(Card carta1, Card carta2) {
-        adicionarCarta(carta1);
-        adicionarCarta(carta2);
+        mao.add(carta1);
+        mao.add(carta2);
     }
+
 
     protected List<Card> getMao() {
         return mao;
     }
-    public int getPontos() {
-        return pontos;
+
+    // ==== Métodos de aposta ====
+    public void apostarDez() {
+        fichas.set(fichas.get() - 10);
     }
+
+    public void apostarVinteCinco() {
+        fichas.set(fichas.get() - 25);
+    }
+
+    public void apostarCinquenta() {
+        fichas.set(fichas.get() - 50);
+    }
+
+    public void apostarCem() {
+        fichas.set(fichas.get() - 100);
+    }
+
+    public void apostarQuinhentos() {
+        fichas.set(fichas.get() - 500);
+    }
+
+    // ==== Métodos de manipulação de fichas ====
+    public int getFichas() {
+        return fichas.get();
+    }
+
+    public void setFichas(int valor) {
+        fichas.set(valor);
+    }
+
+    public void ganhaFichas(int valor) {
+        fichas.set(fichas.get() + valor);
+    }
+
+    public void retiraFichas(int valor) {
+        // Corrigido: antes o if estava invertido
+        if (fichas.get() >= valor) {
+            fichas.set(fichas.get() - valor);
+        }
+    }
+
+    // ==== Getter da property (necessário pro binding no JavaFX) ====
+    public SimpleIntegerProperty fichasProperty() {
+        return fichas;
+    }
+
+
+
     public String getNome() {
         return nome;
+    }
+
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public boolean getAtivo() {
+        return ativo;
+    }
+
+
+    public boolean getFold() {
+        return fold;
+    }
+
+    public void setFold(boolean fold) {
+        this.fold = fold;
+    }
+
+    public int getApostaRodada() {
+        return apostaRodada;
+    }
+
+    public void setApostaRodada(int apostaRodada) {
+        this.apostaRodada = apostaRodada;
+    }
+
+    public void resetApostaRodada(){
+        this.apostaRodada=0;
+    }
+
+    public void resetMao() {
+        mao.clear();
+
     }
 }
 

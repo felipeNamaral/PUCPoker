@@ -104,6 +104,42 @@
 
 
 
+.progress-bar {
+    -fx-accent: #00ff00;
+     -fx-control-inner-background: #222;
+}
+
+.progress-bar .bar {
+    -fx-background-radius: 10;
+}
+
+
+
+
+
+
+
+
+
+
+.botao2 {
+    -fx-background-color: #C41E3A;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 10px;
+    -fx-font-family: "BBH Sans Bartle", sans-serif;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 3);
+    -fx-pref-width: 125px;
+    -fx-pref-height: 40px;
+}
+
+.botao2:hover {
+    -fx-background-color: #560c0c;
+}
+
+
+
 
 
 

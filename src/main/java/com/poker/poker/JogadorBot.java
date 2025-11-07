@@ -16,8 +16,8 @@ public class JogadorBot extends Jogador {
     Client client = Client.builder().apiKey(System.getenv("GEMINI_API_KEY")).build();
 
 
-    public JogadorBot(){
-        super("bot");
+    public JogadorBot(String nome){
+        super(nome);
     }
 
     public String sendIA(List<Card> jogadormao, Card cartaDealer){
@@ -123,6 +123,34 @@ public class JogadorBot extends Jogador {
     }
 
 
+
+    public void mostraMaoVirada(HBox container){
+
+
+        container.getChildren().clear();
+
+        for (int i = 0; i < mao.size(); i++) {
+            Card c = mao.get(i);
+
+            ImageView cartaView = new ImageView(
+                    new Image(getClass().getResource("/images/cartas/" + c.getSuit() + "_" + c.getFace() + ".png")
+                            .toExternalForm())
+            );
+
+            cartaView.setFitWidth(80);
+            cartaView.setFitHeight(120);
+            container.getChildren().add(cartaView);
+        }
+
+
+
+    }
+
+
+
+    public void aposta(){
+
+    }
 
 }
 

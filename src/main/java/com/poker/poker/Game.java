@@ -5,6 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -16,10 +17,10 @@ import javafx.scene.media.AudioClip;
 
 
 public class Game {
-    private Jogador jogador = new Jogador("Jogador");
-    private  JogadorBot jbot1 = new JogadorBot();
-    private  JogadorBot jbot2 = new JogadorBot();
-    private  JogadorBot jbot3 = new JogadorBot();
+    private final Jogador jogador = new Jogador("jogador");
+    private final JogadorBot jbot1 = new JogadorBot("jbot1");
+    private final JogadorBot jbot2 = new JogadorBot("jbot2");
+    private final JogadorBot jbot3 = new JogadorBot("jbot3");
 
 
     public  Game(Stage stage){
@@ -40,13 +41,34 @@ public class Game {
         ImageView avatarView = new ImageView(playerAvatar);
         avatarView.setFitWidth(150);
         avatarView.setFitHeight(150);
-        avatarView.relocate(230,40);
+        avatarView.relocate(230,35);
         HBox cartas = new HBox(20);
         cartas.setPrefSize(100,200);
         cartas.relocate(10,60);
-        Label fichas = new Label("Fichas:"+jogador.getPontos());
+        Label fichas = new Label();
+        fichas.textProperty().bind(jogador.fichasProperty().asString("Fichas: %d"));
         fichas.getStyleClass().add("fichas");
         fichas.relocate(70,250);
+        HBox bts = new HBox(20);
+        Button call = new Button("Call");
+        Button fold = new Button("Fold");
+        call.getStyleClass().add("botao2");
+        fold.getStyleClass().add("botao2");
+        bts.getChildren().addAll(call,fold);
+        bts.relocate(1260,800);
+        bts.setDisable(true);
+        ProgressBar barraTempo =new ProgressBar(0);
+        player.getChildren().add(barraTempo);
+        barraTempo.relocate(240,186);
+        barraTempo.setPrefSize(100,10);
+        barraTempo.setStyle("-fx-accent: #00ff00; -fx-control-inner-background: #222;");
+        barraTempo.getStyleClass().add("progress-bar");
+
+
+
+
+
+
 
 
         AudioClip somHover = new AudioClip(getClass().getResource("/sounds/hoverButton.mp3").toExternalForm()) ;
@@ -126,7 +148,7 @@ public class Game {
         HBox hboxFichas = new HBox(5, dez, vinteCinco, cinquenta, cem, quinhentos);
         hboxFichas.setAlignment(Pos.CENTER);
         hboxFichas.relocate(80,180);
-
+        hboxFichas.setDisable(true);
 
 
         player.getChildren().addAll(avatarView,cartas,hboxFichas,fichas);
@@ -146,7 +168,8 @@ public class Game {
         HBox cartasBot1 = new HBox(20);
         cartasBot1.setPrefSize(100,200);
         cartasBot1.relocate(50,160);
-        Label bot1fichas = new Label("Fichas:"+jbot1.getPontos());
+        Label bot1fichas = new Label();
+        bot1fichas.textProperty().bind(jogador.fichasProperty().asString("Fichas: %d"));
         bot1fichas.getStyleClass().add("fichas");
         bot1fichas.relocate(60,300);
         bot1.getChildren().addAll(avatarViewbot1,cartasBot1,bot1fichas);
@@ -163,7 +186,8 @@ public class Game {
         HBox cartasBot2 = new HBox(20);
         cartasBot2.setPrefSize(100,200);
         cartasBot2.relocate(35,160);
-        Label bot2fichas = new Label("Fichas:"+jbot2.getPontos());
+        Label bot2fichas = new Label();
+        bot2fichas.textProperty().bind(jogador.fichasProperty().asString("Fichas: %d"));
         bot2fichas.getStyleClass().add("fichas");
         bot2fichas.relocate(60,300);
         bot2.getChildren().addAll(avatarViewbot2,cartasBot2,bot2fichas);
@@ -181,7 +205,8 @@ public class Game {
         HBox cartasbot3 = new HBox(20);
         cartasbot3.setPrefSize(100,200);
         cartasbot3.relocate(175,60);
-        Label bot3fichas = new Label("Fichas:"+jbot3.getPontos());
+        Label bot3fichas = new Label();
+        bot3fichas.textProperty().bind(jogador.fichasProperty().asString("Fichas: %d"));
         bot3fichas.getStyleClass().add("fichas");
         bot3fichas.relocate(70,200);
         bot3.getChildren().addAll(avatarViewbot3,cartasbot3,bot3fichas);
@@ -215,12 +240,12 @@ public class Game {
 
 
 
-        jogoLayout.getChildren().addAll(player,bot3,bot1,bot2,mesa);
+        jogoLayout.getChildren().addAll(player,bot3,bot1,bot2,mesa,bts);
 
 
         PokerEngine engine = new PokerEngine(
                 jogador,jbot1,jbot2,jbot3,player,bot1,bot2,bot3,mesa,dez,vinteCinco,cinquenta,cem,quinhentos
-                ,cartas,cartasBot1,cartasBot2,cartasbot3, cartasMesa
+                ,cartas,cartasBot1,cartasBot2,cartasbot3, cartasMesa,call,fold,bts,hboxFichas,barraTempo
         );
 
 
