@@ -1,20 +1,19 @@
 package com.poker.poker;
 
 import javafx.animation.*;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.AudioClip;
-import javafx.stage.Screen;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Mesa {
     protected List<Card> mao = new ArrayList<>();
-
+    private int pote = 0;
 
 
 
@@ -26,13 +25,13 @@ public class Mesa {
         double mesaX = 0;
         double mesaY = 0;
 
-        AudioClip dealcard = new AudioClip(getClass().getResource("/sounds/dealcard.mp3").toExternalForm());
+        AudioClip dealcard = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/dealcard.mp3")).toExternalForm());
 
         for (int i = 0; i < mao.size(); i++) {
             Card c = mao.get(i);
 
             ImageView cartaView = new ImageView(
-                    new Image(getClass().getResource("/images/cartas/" + c.getSuit() + "_" + c.getFace() + ".png")
+                    new Image(Objects.requireNonNull(getClass().getResource("/images/cartas/" + c.getSuit() + "_" + c.getFace() + ".png"))
                             .toExternalForm())
             );
 
@@ -87,12 +86,12 @@ public class Mesa {
         double mesaX = 0;
         double mesaY = 0;
 
-        AudioClip dealcard = new AudioClip(getClass().getResource("/sounds/dealcard.mp3").toExternalForm());
+        AudioClip dealcard = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/dealcard.mp3")).toExternalForm());
 
-        Card c = mao.get(mao.size() - 1);
+        Card c = mao.getLast();
 
         ImageView cartaView = new ImageView(
-                new Image(getClass().getResource("/images/cartas/" + c.getSuit() + "_" + c.getFace() + ".png")
+                new Image(Objects.requireNonNull(getClass().getResource("/images/cartas/" + c.getSuit() + "_" + c.getFace() + ".png"))
                         .toExternalForm())
         );
 
@@ -137,10 +136,21 @@ public class Mesa {
         animacao.play();
     }
 
-
-
     public void resetMao() {
         mao.clear();
 
+    }
+
+
+    public int getPote() {
+        return pote;
+    }
+
+    public void addPote(int pote) {
+        this.pote += pote;
+    }
+
+     public void resetaPote(){
+         this.pote = 0;
     }
 }

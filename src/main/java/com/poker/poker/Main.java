@@ -20,7 +20,7 @@ public class Main extends Application {
 
         Pane fundo = new Pane();
         fundo.getStyleClass().add("fundo");
-        Label titulo = new Label("BlackJack ");
+        Label titulo = new Label("PUCPOKER ");
 
 
         titulo.getStyleClass().add("titulo");

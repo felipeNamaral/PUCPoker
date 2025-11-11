@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.*;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -19,15 +20,13 @@ public class Jogador {
     protected  List<Card> mao = new ArrayList<>();
     private boolean ativo = true;
     private boolean fold = false;
-    private int apostaRodada = 0;
+    private final IntegerProperty apostaRodada = new SimpleIntegerProperty();
 
 
 
     public Jogador(String nome) {
         this.nome = nome;
     }
-
-
 
     public void mostrarMao(HBox container) {
         container.getChildren().clear(); // limpa cartas antigas
@@ -113,25 +112,12 @@ public class Jogador {
     }
 
     // ==== Métodos de aposta ====
-    public void apostarDez() {
-        fichas.set(fichas.get() - 10);
+
+    public void  apostar(int valor){
+        fichas.set(fichas.get()-valor);
+        apostaRodada.set(apostaRodada.get()+valor);
     }
 
-    public void apostarVinteCinco() {
-        fichas.set(fichas.get() - 25);
-    }
-
-    public void apostarCinquenta() {
-        fichas.set(fichas.get() - 50);
-    }
-
-    public void apostarCem() {
-        fichas.set(fichas.get() - 100);
-    }
-
-    public void apostarQuinhentos() {
-        fichas.set(fichas.get() - 500);
-    }
 
     // ==== Métodos de manipulação de fichas ====
     public int getFichas() {
@@ -146,13 +132,6 @@ public class Jogador {
         fichas.set(fichas.get() + valor);
     }
 
-    public void retiraFichas(int valor) {
-        // Corrigido: antes o if estava invertido
-        if (fichas.get() >= valor) {
-            fichas.set(fichas.get() - valor);
-        }
-    }
-
     // ==== Getter da property (necessário pro binding no JavaFX) ====
     public SimpleIntegerProperty fichasProperty() {
         return fichas;
@@ -165,38 +144,32 @@ public class Jogador {
     }
 
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
-    }
-
-    public boolean getAtivo() {
-        return ativo;
-    }
-
-
-    public boolean getFold() {
-        return fold;
-    }
 
     public void setFold(boolean fold) {
         this.fold = fold;
     }
 
-    public int getApostaRodada() {
-        return apostaRodada;
+    public boolean getFold(){
+        return fold;
     }
 
-    public void setApostaRodada(int apostaRodada) {
-        this.apostaRodada = apostaRodada;
-    }
 
     public void resetApostaRodada(){
-        this.apostaRodada=0;
+        apostaRodada.set(0);
     }
 
     public void resetMao() {
         mao.clear();
 
+    }
+
+
+    public IntegerProperty getApostaRodada() {
+        return apostaRodada;
+    }
+
+    public void setApostaRodada(int valor) {
+        apostaRodada.set(valor);
     }
 }
 
