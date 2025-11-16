@@ -3,10 +3,11 @@ import javafx.scene.media.AudioClip;
 
 
 import java.security.SecureRandom;
+import java.util.Objects;
 
 public class DeckOfCards
 {
-    private Card[] deck; // array of Card objects
+    private final Card[] deck; // array of Card objects
     private int currentCard; // index of next Card to be dealt (0-51)
     private static final int NUMBER_OF_CARDS = 52; // constant # of Cards
     // random number generator
@@ -32,7 +33,7 @@ public class DeckOfCards
     // shuffle deck of Cards with one-pass algorithm
     public void shuffle()
     {
-        AudioClip somShuffle = new AudioClip(getClass().getResource("/sounds/shuffle.mp3").toExternalForm()) ;
+        AudioClip somShuffle = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/shuffle.mp3")).toExternalForm()) ;
         somShuffle.play();
 
         // next call to method dealCard should start at deck[0] again

@@ -8,14 +8,14 @@
     import java.util.List;
 
     public class PokerEngine {
-        public final Jogador jogador;
-        public final JogadorBot jbot1;
-        public final JogadorBot jbot2;
-        public final JogadorBot jbot3;
-        public final Mesa mesa;
+        protected final Jogador jogador;
+        protected final JogadorBot jbot1;
+        protected final JogadorBot jbot2;
+        protected final JogadorBot jbot3;
+        protected final Mesa mesa;
         private  DeckOfCards baralho;
         private final InterfaceController ui;
-        public final List<Jogador> jogadores = new ArrayList<>();
+        protected final List<Jogador> jogadores = new ArrayList<>();
 
         public PokerEngine(Jogador jogador, JogadorBot jbot1, JogadorBot jbot2, JogadorBot jbot3, InterfaceController ui)
         {
@@ -24,7 +24,8 @@
             this.jbot2 = jbot2;
             this.jbot3 = jbot3;
             this.ui = ui;
-
+            jogadores.clear();
+            jogadores.addAll(Arrays.asList(jbot2, jogador, jbot3, jbot1));
 
             this.mesa = new Mesa();
             this.baralho = new DeckOfCards();
@@ -34,7 +35,7 @@
 
         public  void iniciaPartida() {
 
-            jogadores.addAll(Arrays.asList(jbot2, jogador, jbot3, jbot1));
+
             ui.limpaMesa();
             jogador.resetMao();
             jbot1.resetMao();
@@ -63,9 +64,15 @@
             jbot1.resetApostaRodada();
             jogador.resetApostaRodada();
 
+            jogadores.clear();
+            jogadores.addAll(Arrays.asList(jbot2, jogador, jbot3, jbot1));
 
-            Jogador aux = jogadores.removeFirst();
+
+            Jogador aux = jogadores.remove(0);
             jogadores.add(aux);
+
+
+            iniciaPartida();
 
 
 
@@ -91,7 +98,7 @@
                 ui.atualizarCartasJogador(jbot2);
                 ui.atualizarCartasJogador(jbot3);
 
-                PauseTransition pause = new PauseTransition(Duration.seconds(4));
+                PauseTransition pause = new PauseTransition(Duration.seconds(10));
                 pause.setOnFinished(e->{
                     onFinish.run();
                 });

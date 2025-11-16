@@ -1,5 +1,8 @@
 package com.poker.poker;
 
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+
 import java.util.List;
 
 public class GerenciarAposta {
@@ -8,6 +11,7 @@ public class GerenciarAposta {
     private int indiceAtual;
     private int apostaTemp = 0;
     private int maiorAposta ;
+    private boolean interromperApostas = false;
 
     public GerenciarAposta(PokerEngine engine) {
         this.engine = engine;
@@ -22,11 +26,12 @@ public class GerenciarAposta {
         this.indiceAtual = 0;
         this.apostaTemp = 0;
         this.maiorAposta = 100;
-        engine.mesa.resetaPote();
         realizarAposta(jogadores, proximaEtapa);
     }
 
     private void realizarAposta(List<Jogador> jogadores, Runnable proximaEtapa) {
+        if (interromperApostas) return;
+
         if (indiceAtual >= jogadores.size()) {
             indiceAtual = 0;
 
@@ -41,20 +46,72 @@ public class GerenciarAposta {
 
         if (atual instanceof JogadorBot) {
 
-            // esta dando call para teste mas aqui vai chamr função que manda pra ia responder
 
-            atual.apostar(maiorAposta);// aposta maior aposta
-            engine.mesa.addPote(maiorAposta);
+            PauseTransition pause = new PauseTransition(Duration.seconds(2));
+            pause.setOnFinished(ev->{
+                CriaJson criaJson = new CriaJson((JogadorBot) atual, engine.mesa,maiorAposta);
 
-            engine.getUi().mostrarPoteBot(atual.getNome()); //função pra mostrar o pote
+                String resposta = ((JogadorBot) atual).sendIA(criaJson.criar());
+
+                System.out.println(atual.getNome()+":"+resposta);
+
+                switch (resposta) {
 
 
-            System.out.println(atual.getNome()+"apostou"+maiorAposta);
-            indiceAtual++;  //passa para o proximo jogador
+                    case "call": {
+                        int diff = maiorAposta - atual.getApostaRodada().get();
+
+                        if (diff > 0) {
+                            atual.apostar(diff);
+                            engine.mesa.addPote(diff);
+
+                        }
+
+                        engine.getUi().mostrarPoteBot(atual.getNome());
+                        indiceAtual++;
+                        realizarAposta(jogadores, proximaEtapa);
+                        return;
+                    }
 
 
-            realizarAposta(jogadores, proximaEtapa);
+                    case "fold": {
+                        atual.setFold(true);
+                        jogadores.remove(indiceAtual);
+                        atual.resetMao();
+                        engine.getUi().limpaMaoFold(atual.getNome());
+                        if(jogadores.size()==1){
+                            interromperApostas = true;
+                            proximaEtapa.run();
+                            return;
+                        }
+                        if (indiceAtual >= jogadores.size()) {
+                            indiceAtual = 0;
+                        }
 
+                        realizarAposta(jogadores, proximaEtapa);
+                        return;
+                    }
+
+
+                    default: {
+                        int valor = Integer.parseInt(resposta);
+
+                        atual.apostar(valor);
+                        engine.mesa.addPote(valor);
+
+
+                        if (atual.getApostaRodada().get() > maiorAposta)
+                            maiorAposta = atual.getApostaRodada().get();
+
+                        engine.getUi().mostrarPoteBot(atual.getNome());
+                        indiceAtual++;
+                        realizarAposta(jogadores, proximaEtapa);
+                        return;
+                    }
+                }
+            });
+
+            pause.play();
         }
 
         else {
@@ -82,9 +139,9 @@ public class GerenciarAposta {
         // função vem do botao apostar apos passar por confirmar aposta mas passa valor  =0 entao nao apsota duas vezes , qui vem do call tbm qu ese tiver ficha da call senao dele aposta 0 ta no allwin
 
 
-        jogador.apostar(valor); // jogador aposta o valor
+        jogador.apostar(valor);
         engine.mesa.addPote(valor);
-
+        engine.getUi().pararBarraTempo();
         engine.getUi().habilitarBotoes(false);
 
         indiceAtual++;
@@ -102,10 +159,20 @@ public class GerenciarAposta {
 
         jogador.setFold(true);
 
+        engine.getUi().pararBarraTempo();
+
         // Desabilita os botões
         engine.getUi().habilitarBotoes(false);
-
+        engine.getUi().limpaMaoFold("jogador");
         jogadores.remove(indiceAtual);
+        if(jogadores.size()==1){
+            interromperApostas = true;
+            proximaEtapa.run();
+            return;
+        }
+        if (indiceAtual >= jogadores.size()) {
+            indiceAtual = 0;
+        }
 
         realizarAposta(jogadores, proximaEtapa);
     }
@@ -118,6 +185,7 @@ public class GerenciarAposta {
         if (jogador.getFichas() >= valor) {
             apostaTemp += valor;
             jogador.apostar(valor);
+            engine.mesa.addPote(valor);
             System.out.println(jogador.getNome() + " adicionou " + valor + " à aposta. Total: " + apostaTemp);
 
         } else {

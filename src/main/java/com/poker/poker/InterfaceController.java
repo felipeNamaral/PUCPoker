@@ -6,8 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class InterfaceController {
@@ -18,6 +20,8 @@ public class InterfaceController {
     private final Button call, fold, dez, vinteCinco, cinquenta, cem, quinhentos,apostar;
     private final HBox bts, hboxFichas;
     private  final ProgressBar barraTempo;
+    private AnimationTimer barraTimer;
+    AudioClip dropChips = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/drop_Chips.mp3")).toExternalForm()) ;
 
     private final VBox poteJogador,potebot1,potebot2,potebot3;
 
@@ -81,32 +85,28 @@ public class InterfaceController {
         hboxFichas.setDisable(!habilitar);
     }
 
-    public void atualizarBarraTempo(double progresso) {
-        barraTempo.setProgress(progresso);
-    }
 
 
     public void limpaMesa(){
         cartasMesa.getChildren().clear();
         cartasBot1.getChildren().clear();
         cartasBot2.getChildren().clear();
-        cartasBot1.getChildren().clear();
+        cartasBot3.getChildren().clear();
         cartasJogador.getChildren().clear();
     }
 
 
     public void iniciarBarraTempo(Runnable acaoAoTerminar) {
+        if (barraTimer != null) barraTimer.stop();
         barraTempo.setProgress(0);
-        final long duracaoNano = (long)(25 * 1_000_000_000L); //
+        final long duracaoNano = (long)(25 * 1_000_000_000L);
         final long inicio = System.nanoTime();
-
-        AnimationTimer timer = new AnimationTimer() {
+        barraTimer = new AnimationTimer() {
             @Override
             public void handle(long agora) {
                 long decorrido = agora - inicio;
                 double progresso = (double) decorrido / duracaoNano;
                 barraTempo.setProgress(Math.min(progresso, 1.0));
-
                 if (decorrido >= duracaoNano) {
                     barraTempo.setProgress(1.0);
                     acaoAoTerminar.run();
@@ -114,8 +114,12 @@ public class InterfaceController {
                 }
             }
         };
-
-        timer.start();
+        barraTimer.start();
+    }
+    public void pararBarraTempo() {
+        if (barraTimer != null) {
+            barraTimer.stop();
+        }
     }
 
 
@@ -151,7 +155,7 @@ public class InterfaceController {
         apostar.setOnAction(e -> gerenciarAposta.confirmarAposta(jogador, jogadores, proximaEtapa));
         call.setOnAction(e -> {
 
-
+            pararBarraTempo();
             mostrarPoteJogador();
             int valorCall = gerenciarAposta.getMaiorAposta() - jogador.getApostaRodada().get();
 
@@ -175,18 +179,23 @@ public class InterfaceController {
 
 
     public void mostrarPoteBot(String nome){
+        dropChips.play();
         switch (nome) {
             case "jbot1":
                 potebot1.setVisible(true);
+                break;
             case "jbot2":
                 potebot2.setVisible(true);
+                break;
             case "jbot3":
                 potebot3.setVisible(true);
+                break;
         }
     }
 
 
     public void mostrarPoteJogador(){
+        dropChips.play();
         poteJogador.setVisible(true);
     }
 
@@ -199,5 +208,20 @@ public class InterfaceController {
 
 
 
-
+    public void limpaMaoFold(String nome){
+        switch (nome){
+            case "jbot1":
+                cartasBot1.getChildren().clear();
+                break;
+            case "jbot2":
+                cartasBot2.getChildren().clear();
+                break;
+            case "jbot3":
+                cartasBot3.getChildren().clear();
+                break;
+            case "jogador":
+                cartasJogador.getChildren().clear();
+                break;
+        }
+    }
 }

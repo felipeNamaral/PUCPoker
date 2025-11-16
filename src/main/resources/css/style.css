@@ -141,7 +141,8 @@
 
 
 .poteJogador{
-    -fx-alignment: center
+    -fx-alignment: center;
+    -fx-text-fill:#ffffff;
 }
 
 

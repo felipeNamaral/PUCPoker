@@ -52,10 +52,6 @@ public class Main extends Application {
 
             Game jg = new Game(stage);
 
-
-
-
-
         });
 
 

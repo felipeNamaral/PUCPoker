@@ -26,11 +26,6 @@ public class Card
 
         return suit;}
 
-    public String getImagePath() {
-        String suitLower = suit.toLowerCase(); // ex: "Clubs" -> "clubs"
-        return "/images/cartas/" + face + "_" + suitLower + ".png";
-    }
-
 
 
 

@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Mesa {
     protected List<Card> mao = new ArrayList<>();
     private int pote = 0;
+    private String etapa ;
 
 
 
@@ -88,7 +89,8 @@ public class Mesa {
 
         AudioClip dealcard = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/dealcard.mp3")).toExternalForm());
 
-        Card c = mao.getLast();
+        if (mao.isEmpty()) return;
+        Card c = mao.get(mao.size() - 1);
 
         ImageView cartaView = new ImageView(
                 new Image(Objects.requireNonNull(getClass().getResource("/images/cartas/" + c.getSuit() + "_" + c.getFace() + ".png"))
@@ -152,5 +154,19 @@ public class Mesa {
 
      public void resetaPote(){
          this.pote = 0;
+    }
+
+
+
+    public String getEtapa(){
+        return etapa;
+    }
+
+    public void setEtapa(String etapa){
+        this.etapa = etapa;
+    }
+
+    public List<Card> getMao() {
+        return mao;
     }
 }

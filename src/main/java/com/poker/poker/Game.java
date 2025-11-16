@@ -307,7 +307,7 @@ public class Game {
         jogoLayout.getChildren().addAll(player,bot3,bot1,bot2,mesa,bts,poteJogador,potebot1,potebot2,potebot3);
 
 
-        // --- Instancia InterfaceController ---
+        //Instancia InterfaceController
         InterfaceController ui = new InterfaceController(
                 cartas, cartasMesa, cartasBot1, cartasBot2,cartasbot3, call, fold,apostar,
                 dez, vinteCinco, cinquenta, cem, quinhentos,

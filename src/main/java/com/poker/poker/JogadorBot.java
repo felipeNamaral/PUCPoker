@@ -20,18 +20,9 @@ public class JogadorBot extends Jogador {
         super(nome);
     }
 
-    public String sendIA(List<Card> jogadormao, Card cartaDealer){
-        System.out.println("vez da ia:");
-        try {
-            String maoFormatada = jogadormao.stream()
-                    .map(Card::toString)
-                    .collect(Collectors.joining(", "));
+    public String sendIA(String gamestatus){
 
-            String gamestatus = "Você está jogando BlackJack.\n" +
-                    "Sua mão atual (IA): " + super.getMao() + "\n" +
-                    "Carta visível do dealer: " + cartaDealer + "\n" +
-                    "Cartas do jogador anterior: " + maoFormatada + "\n" +
-                    "O que você quer fazer? Retorne apenas 's' para stand ou 'h' para hit.";
+        try {
 
             GenerateContentResponse response = client.models.generateContent(
                     "gemini-2.5-flash",
@@ -43,11 +34,11 @@ public class JogadorBot extends Jogador {
 
         } catch (com.google.genai.errors.ServerException se) {
             System.err.println("Erro de servidor: " + se.getMessage());
-            // Retorna ação padrão caso a IA não esteja disponível
-            return "s"; // por exemplo, stand
+
+            return "fold";
         } catch (Exception e) {
             e.printStackTrace();
-            return "s"; // fallback
+            return "fold";
         }
     }
 
@@ -148,8 +139,8 @@ public class JogadorBot extends Jogador {
 
 
 
-    public void aposta(){
-
+    public void aposta(Runnable onFinish){
+        onFinish.run();
     }
 
 }

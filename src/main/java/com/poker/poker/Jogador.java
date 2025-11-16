@@ -15,9 +15,10 @@ import javafx.stage.Screen;
 import javafx.util.Duration;
 
 public class Jogador {
-    private final SimpleIntegerProperty fichas = new SimpleIntegerProperty(20000);
+    private  SimpleIntegerProperty fichas = new SimpleIntegerProperty(20000);
     private final String nome;
     protected  List<Card> mao = new ArrayList<>();
+    protected  List<Card> maoFinal = new ArrayList<>();
     private boolean ativo = true;
     private boolean fold = false;
     private final IntegerProperty apostaRodada = new SimpleIntegerProperty();
@@ -124,15 +125,13 @@ public class Jogador {
         return fichas.get();
     }
 
-    public void setFichas(int valor) {
-        fichas.set(valor);
-    }
+
 
     public void ganhaFichas(int valor) {
         fichas.set(fichas.get() + valor);
     }
 
-    // ==== Getter da property (necessário pro binding no JavaFX) ====
+
     public SimpleIntegerProperty fichasProperty() {
         return fichas;
     }
@@ -160,7 +159,6 @@ public class Jogador {
 
     public void resetMao() {
         mao.clear();
-
     }
 
 
@@ -170,6 +168,16 @@ public class Jogador {
 
     public void setApostaRodada(int valor) {
         apostaRodada.set(valor);
+    }
+
+    public List<Card> getMaoFinal() {
+        return maoFinal;
+    }
+
+    public void setMaoFinal(List<Card> maoDamesa) {
+        maoFinal.clear();
+        this.maoFinal.addAll(mao);
+        this.maoFinal.addAll(maoDamesa);
     }
 }
 
