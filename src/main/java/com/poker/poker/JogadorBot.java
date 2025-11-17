@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JogadorBot extends Jogador {
-    Client client = Client.builder().apiKey(System.getenv("GEMINI_API_KEY")).build();
+    Client client = Client.builder().apiKey("AIzaSyC4FGMeIefezw7-yb2VzLrqwlK6cA_LFfs"/*System.getenv("GEMINI_API_KEY")*/).build();
 
 
     public JogadorBot(String nome){
@@ -35,10 +35,10 @@ public class JogadorBot extends Jogador {
         } catch (com.google.genai.errors.ServerException se) {
             System.err.println("Erro de servidor: " + se.getMessage());
 
-            return "fold";
+            return "call";
         } catch (Exception e) {
             e.printStackTrace();
-            return "fold";
+            return "call";
         }
     }
 

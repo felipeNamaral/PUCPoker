@@ -12,7 +12,7 @@
     -fx-translate-x: 290px;
     -fx-text-fill: gold;  /* cor principal */
     -fx-font-size: 200px;
-    -fx-font-weight: heavy;
+    -fx-font-weight: bold;
     -fx-font-family: "Playfair Display", serif;
     -fx-text-alignment: center;
 

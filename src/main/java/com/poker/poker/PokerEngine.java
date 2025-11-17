@@ -64,8 +64,7 @@
             jbot1.resetApostaRodada();
             jogador.resetApostaRodada();
 
-            jogadores.clear();
-            jogadores.addAll(Arrays.asList(jbot2, jogador, jbot3, jbot1));
+
 
 
             Jogador aux = jogadores.remove(0);

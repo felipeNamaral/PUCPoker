@@ -3,18 +3,18 @@ package com.poker.poker;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rodada {
     private final PokerEngine engine;
     private final List<Jogador> jogadoresAtivos;
     private final Mesa mesa;
-    private int etapa =0 ;
     private final GerenciarAposta gerenciadorApostas;
 
     public Rodada(PokerEngine engine,List<Jogador> jogadoresAtivos,Mesa mesa, GerenciarAposta gerenciadorApostas ){
         this.engine = engine;
-        this.jogadoresAtivos = jogadoresAtivos;
+        this.jogadoresAtivos = new ArrayList<>(jogadoresAtivos);
         this.mesa = mesa;
         this.gerenciadorApostas = gerenciadorApostas;
     }
@@ -96,6 +96,7 @@ public class Rodada {
         vencedor.ganhaFichas(mesa.getPote());
         engine.mesa.resetaPote();
         engine.getUi().desativarpotes();
+        engine.getUi().SoudVitoriaPlay();
         PauseTransition pause = new PauseTransition(Duration.seconds(4));
         pause.setOnFinished(e->{
             engine.finalizarRodada();
@@ -111,6 +112,7 @@ public class Rodada {
         jogadoresAtivos.get(0).ganhaFichas(mesa.getPote());
         engine.mesa.resetaPote();
         engine.getUi().desativarpotes();
+        engine.getUi().SoudVitoriaPlay();
         PauseTransition pause = new PauseTransition(Duration.seconds(4));
         pause.setOnFinished(e->{
             engine.finalizarRodada();

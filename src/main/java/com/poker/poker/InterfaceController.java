@@ -22,7 +22,9 @@ public class InterfaceController {
     private  final ProgressBar barraTempo;
     private AnimationTimer barraTimer;
     AudioClip dropChips = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/drop_Chips.mp3")).toExternalForm()) ;
-
+    AudioClip checkSoud = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/Bater.mp3")).toExternalForm()) ;
+    AudioClip foldSoud = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/fold.mp3")).toExternalForm()) ;
+    AudioClip winSound = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/vitoria.mp3")).toExternalForm()) ;
     private final VBox poteJogador,potebot1,potebot2,potebot3;
 
     public InterfaceController(HBox cartasJogador, HBox cartasMesa, HBox cartasBot1, HBox cartasBot2, HBox cartasBot3, Button call, Button fold, Button apostar, Button dez, Button vinteCinco, Button cinquenta, Button cem, Button quinhentos,
@@ -97,6 +99,8 @@ public class InterfaceController {
 
 
     public void iniciarBarraTempo(Runnable acaoAoTerminar) {
+
+
         if (barraTimer != null) barraTimer.stop();
         barraTempo.setProgress(0);
         final long duracaoNano = (long)(25 * 1_000_000_000L);
@@ -151,31 +155,47 @@ public class InterfaceController {
             gerenciarAposta.adicionarFicha(jogador, 500);
         });
 
-        fold.setOnAction(e -> gerenciarAposta.jogadorFold(jogador, jogadores, proximaEtapa));
+            fold.setOnAction(e -> {SoudFoldPlay();gerenciarAposta.jogadorFold(jogador, jogadores, proximaEtapa);});
         apostar.setOnAction(e -> gerenciarAposta.confirmarAposta(jogador, jogadores, proximaEtapa));
         call.setOnAction(e -> {
 
             pararBarraTempo();
-            mostrarPoteJogador();
+
             int valorCall = gerenciarAposta.getMaiorAposta() - jogador.getApostaRodada().get();
 
             if (valorCall <= 0) {
                 // Jogador pode dar check
+                checkSoud.play();
                 System.out.println(jogador.getNome() + " deu CHECK.");
                 gerenciarAposta.jogadorApostou(jogador, 0, jogadores, proximaEtapa);
 
             } else if (jogador.getFichas() >= valorCall) {
                 // Jogador paga o call normal
+                mostrarPoteJogador();
                 System.out.println(jogador.getNome() + " deu CALL de " + valorCall + " fichas.");
                 gerenciarAposta.jogadorApostou(jogador, valorCall, jogadores, proximaEtapa);
 
             } else {
                 // Jogador não tem fichas suficientes
+                checkSoud.play();
                 System.out.println(jogador.getNome() + " está ALL-IN com " + jogador.getFichas() + " fichas.");
                 gerenciarAposta.jogadorApostou(jogador, jogador.getFichas(), jogadores, proximaEtapa);
             }
         });
     }
+
+    public void SoudCheckPlay(){
+        checkSoud.play();
+    }
+
+    public void SoudFoldPlay(){
+        foldSoud.play();
+    }
+
+    public void SoudVitoriaPlay(){
+        winSound.play();
+    }
+
 
 
     public void mostrarPoteBot(String nome){

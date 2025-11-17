@@ -64,10 +64,13 @@ public class GerenciarAposta {
                         if (diff > 0) {
                             atual.apostar(diff);
                             engine.mesa.addPote(diff);
-
+                            engine.getUi().mostrarPoteBot(atual.getNome());
+                        }
+                        if(diff==0){
+                            engine.getUi().SoudCheckPlay();
                         }
 
-                        engine.getUi().mostrarPoteBot(atual.getNome());
+
                         indiceAtual++;
                         realizarAposta(jogadores, proximaEtapa);
                         return;
@@ -78,6 +81,7 @@ public class GerenciarAposta {
                         atual.setFold(true);
                         jogadores.remove(indiceAtual);
                         atual.resetMao();
+                        engine.getUi().SoudFoldPlay();
                         engine.getUi().limpaMaoFold(atual.getNome());
                         if(jogadores.size()==1){
                             interromperApostas = true;
