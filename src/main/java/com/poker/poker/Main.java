@@ -40,6 +40,7 @@ public class Main extends Application {
         fundo.getChildren().addAll(titulo,botoes);
 
 
+
         Scene scene = new Scene(fundo,screenBounds.getWidth(),screenBounds.getHeight());
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setScene(scene);

@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -38,6 +39,11 @@ public class Game {
 
         Pane jogoLayout = new Pane();
 
+        Image big = new Image(Objects.requireNonNull(getClass().getResource("/images/fichas/big_blind.png")).toExternalForm());
+        Image small = new Image(Objects.requireNonNull(getClass().getResource("/images/fichas/small_blind.png")).toExternalForm());
+
+
+
         Pane player = new Pane();
         player.setPrefSize(400, 250);
         player.relocate(screenBounds.getWidth()-600,screenBounds.getHeight()-300);
@@ -45,7 +51,12 @@ public class Game {
         ImageView avatarView = new ImageView(playerAvatar);
         avatarView.setFitWidth(150);
         avatarView.setFitHeight(150);
-        avatarView.relocate(230,35);
+        StackPane avatarContainer = new StackPane(avatarView);
+        avatarContainer.setPrefSize(150, 150); // tamanho do avatar container
+        avatarContainer.relocate(230, 27);
+
+
+
         HBox cartas = new HBox(20);
         cartas.setPrefSize(100,200);
         cartas.relocate(10,60);
@@ -65,7 +76,7 @@ public class Game {
         bts.setDisable(true);
         ProgressBar barraTempo =new ProgressBar(0);
         player.getChildren().add(barraTempo);
-        barraTempo.relocate(240,186);
+        barraTempo.relocate(240,180);
         barraTempo.setPrefSize(100,10);
         barraTempo.setStyle("-fx-accent: #00ff00; -fx-control-inner-background: #222;");
         barraTempo.getStyleClass().add("progress-bar");
@@ -169,7 +180,7 @@ public class Game {
         hboxFichas.setDisable(true);
 
 
-        player.getChildren().addAll(avatarView,cartas,hboxFichas,fichas);
+        player.getChildren().addAll(avatarContainer,cartas,hboxFichas,fichas);
 
 
 
@@ -182,7 +193,13 @@ public class Game {
         ImageView avatarViewbot1 = new ImageView(bot1Avatar);
         avatarViewbot1.setFitWidth(150);
         avatarViewbot1.setFitHeight(150);
-        avatarViewbot1.relocate(10,10);
+        StackPane avatarContainerBot1 = new StackPane(avatarViewbot1);
+        avatarContainerBot1.setPrefSize(150,150);
+        avatarContainerBot1.relocate(10,10);
+
+
+
+
         HBox cartasBot1 = new HBox(20);
         cartasBot1.setPrefSize(100,200);
         cartasBot1.relocate(50,160);
@@ -217,7 +234,14 @@ public class Game {
         ImageView avatarViewbot2 = new ImageView(bot2Avatar);
         avatarViewbot2.setFitWidth(150);
         avatarViewbot2.setFitHeight(150);
-        avatarViewbot2.relocate(90,10);
+        StackPane avatarContainerBot2 = new StackPane(avatarViewbot2);
+        avatarContainerBot2.setPrefSize(150,150);
+        avatarContainerBot2.relocate(90,10);
+
+
+
+
+
         HBox cartasBot2 = new HBox(20);
         cartasBot2.setPrefSize(100,200);
         cartasBot2.relocate(35,160);
@@ -225,7 +249,7 @@ public class Game {
         bot2fichas.textProperty().bind(jbot2.fichasProperty().asString("Fichas: %d"));
         bot2fichas.getStyleClass().add("fichas");
         bot2fichas.relocate(60,300);
-        bot2.getChildren().addAll(avatarViewbot2,cartasBot2,bot2fichas);
+        bot2.getChildren().addAll(avatarContainerBot2,cartasBot2,bot2fichas);
         VBox potebot2  = new VBox();
         potebot2.getStyleClass().add("poteJogador");
         ImageView montefichasviewbot2 = new ImageView(monte);
@@ -252,7 +276,14 @@ public class Game {
         ImageView avatarViewbot3 = new ImageView(playerAvatarbot3);
         avatarViewbot3.setFitWidth(150);
         avatarViewbot3.setFitHeight(150);
-        avatarViewbot3.relocate(10,40);
+
+
+        StackPane avatarContainerBot3 = new StackPane(avatarViewbot3);
+        avatarContainerBot3.setPrefSize(150,150);
+        avatarContainerBot3.relocate(10,40);
+
+
+
         HBox cartasbot3 = new HBox(20);
         cartasbot3.setPrefSize(100,200);
         cartasbot3.relocate(175,60);
@@ -260,7 +291,7 @@ public class Game {
         bot3fichas.textProperty().bind(jbot3.fichasProperty().asString("Fichas: %d"));
         bot3fichas.getStyleClass().add("fichas");
         bot3fichas.relocate(70,200);
-        bot3.getChildren().addAll(avatarViewbot3,cartasbot3,bot3fichas);
+        bot3.getChildren().addAll(avatarContainerBot3,cartasbot3,bot3fichas);
         VBox potebot3  = new VBox();
         ImageView montefichasviewbot3 = new ImageView(monte);
         montefichasviewbot3.setFitWidth(50);   // opcional
@@ -311,7 +342,7 @@ public class Game {
         InterfaceController ui = new InterfaceController(
                 cartas, cartasMesa, cartasBot1, cartasBot2,cartasbot3, call, fold,apostar,
                 dez, vinteCinco, cinquenta, cem, quinhentos,
-                bts, hboxFichas, barraTempo,poteJogador,potebot1,potebot2,potebot3
+                bts, hboxFichas, barraTempo,poteJogador,potebot1,potebot2,potebot3,avatarContainer, avatarContainerBot1, avatarContainerBot2, avatarContainerBot3
         );
 
 
@@ -327,7 +358,7 @@ public class Game {
 
 
 
-        Scene jogoScene = new Scene(jogoLayout,screenBounds.getWidth(),screenBounds.getHeight());
+        Scene jogoScene = new Scene(jogoLayout,1536,864);
         jogoScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm());
         stage.setScene(jogoScene);
         stage.setResizable(false);

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JogadorBot extends Jogador {
-    Client client = Client.builder().apiKey("AIzaSyC4FGMeIefezw7-yb2VzLrqwlK6cA_LFfs"/*System.getenv("GEMINI_API_KEY")*/).build();
+    Client client = Client.builder().apiKey(""/*System.getenv("GEMINI_API_KEY")*/).build();
 
 
     public JogadorBot(String nome){

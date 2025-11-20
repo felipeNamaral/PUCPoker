@@ -4,6 +4,7 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Rodada {
@@ -22,6 +23,11 @@ public class Rodada {
 
     public void iniciar(){
 
+        jogadoresAtivos.get(jogadoresAtivos.size()-2).apostar(100);
+        engine.getUi().mostrarPoteBot(jogadoresAtivos.get(jogadoresAtivos.size()-2).getNome());
+        jogadoresAtivos.get(jogadoresAtivos.size()-1).apostar(50);
+        engine.getUi().mostrarPoteBot(jogadoresAtivos.get(jogadoresAtivos.size()-1).getNome());
+
         preFlop();
     }
 
@@ -36,6 +42,7 @@ public class Rodada {
 
     // ====== FLOP ======
     private void flop() {
+
         if(jogadoresAtivos.size()==1){
             showdownDireto(jogadoresAtivos.get(0));
             return;

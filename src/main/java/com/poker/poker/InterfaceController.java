@@ -4,10 +4,14 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,6 +22,7 @@ public class InterfaceController {
     private final HBox cartasMesa;
     private final HBox cartasBot1, cartasBot2, cartasBot3;
     private final Button call, fold, dez, vinteCinco, cinquenta, cem, quinhentos,apostar;
+    private final Pane player,bot1,bot2,bot3;
     private final HBox bts, hboxFichas;
     private  final ProgressBar barraTempo;
     private AnimationTimer barraTimer;
@@ -28,7 +33,7 @@ public class InterfaceController {
     private final VBox poteJogador,potebot1,potebot2,potebot3;
 
     public InterfaceController(HBox cartasJogador, HBox cartasMesa, HBox cartasBot1, HBox cartasBot2, HBox cartasBot3, Button call, Button fold, Button apostar, Button dez, Button vinteCinco, Button cinquenta, Button cem, Button quinhentos,
-                               HBox bts, HBox hboxFichas, ProgressBar barraTempo, VBox poteJogador,VBox potebot1,VBox potebot2,VBox potebot3) {
+                               HBox bts, HBox hboxFichas, ProgressBar barraTempo, VBox poteJogador,VBox potebot1,VBox potebot2,VBox potebot3,Pane player,Pane bot1,Pane bot2,Pane bot3) {
         this.cartasJogador = cartasJogador;
         this.cartasMesa = cartasMesa;
         this.cartasBot1 = cartasBot1;
@@ -49,6 +54,10 @@ public class InterfaceController {
         this.potebot1=potebot1;
         this.potebot2=potebot2;
         this.potebot3=potebot3;
+        this.player=player;
+        this.bot1=bot1;
+        this.bot2=bot2;
+        this.bot3=bot3;
     }
 
     public void atualizarCartasJogador(Jogador jogador) {
@@ -210,6 +219,9 @@ public class InterfaceController {
             case "jbot3":
                 potebot3.setVisible(true);
                 break;
+            case "jogador":
+                poteJogador.setVisible(true);
+                break;
         }
     }
 
@@ -244,4 +256,30 @@ public class InterfaceController {
                 break;
         }
     }
+
+    public void bordaAtiva(String nome) {
+        String style = "-fx-border-color: #FFD700; -fx-border-width: 1.5; -fx-border-radius: 100; -fx-background-radius: 12;";
+        switch (nome) {
+            case "jbot1" -> bot1.setStyle(style);
+            case "jbot2" -> bot2.setStyle(style);
+            case "jbot3" -> bot3.setStyle(style);
+            case "jogador" -> player.setStyle(style);
+        }
+    }
+
+    public void bordaDesativada(String nome) {
+        String style = "-fx-border-width: 0; -fx-border-color: transparent;";
+        switch (nome) {
+            case "jbot1" -> bot1.setStyle(style);
+            case "jbot2" -> bot2.setStyle(style);
+            case "jbot3" -> bot3.setStyle(style);
+            case "jogador" -> player.setStyle(style);
+        }
+    }
+
+
+
 }
+
+
+

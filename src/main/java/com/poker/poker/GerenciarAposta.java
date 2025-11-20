@@ -10,7 +10,7 @@ public class GerenciarAposta {
     private final PokerEngine engine;
     private int indiceAtual;
     private int apostaTemp = 0;
-    private int maiorAposta ;
+    private int maiorAposta=100 ;
     private boolean interromperApostas = false;
 
     public GerenciarAposta(PokerEngine engine) {
@@ -25,7 +25,8 @@ public class GerenciarAposta {
 
         this.indiceAtual = 0;
         this.apostaTemp = 0;
-        this.maiorAposta = 100;
+
+
         realizarAposta(jogadores, proximaEtapa);
     }
 
@@ -46,82 +47,86 @@ public class GerenciarAposta {
 
         if (atual instanceof JogadorBot) {
 
-
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
-            pause.setOnFinished(ev->{
-                CriaJson criaJson = new CriaJson((JogadorBot) atual, engine.mesa,maiorAposta);
-
-                String resposta = ((JogadorBot) atual).sendIA(criaJson.criar());
-
-                System.out.println(atual.getNome()+":"+resposta);
-
-                switch (resposta) {
+            engine.getUi().bordaAtiva(atual.getNome());
+                PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                pause.setOnFinished(ev -> {
 
 
-                    case "call": {
-                        int diff = maiorAposta - atual.getApostaRodada().get();
+                    CriaJson criaJson = new CriaJson((JogadorBot) atual, engine.mesa, maiorAposta);
 
-                        if (diff > 0) {
-                            atual.apostar(diff);
-                            engine.mesa.addPote(diff);
-                            engine.getUi().mostrarPoteBot(atual.getNome());
-                        }
-                        if(diff==0){
-                            engine.getUi().SoudCheckPlay();
-                        }
+                    String resposta = ((JogadorBot) atual).sendIA(criaJson.criar());
+
+                    System.out.println(atual.getNome() + ":" + resposta);
+
+                    switch (resposta) {
+
+                        case "call": {
+                            int diff = maiorAposta - atual.getApostaRodada().get();
+
+                            if (diff > 0) {
+                                atual.apostar(diff);
+                                engine.mesa.addPote(diff);
+                                engine.getUi().mostrarPoteBot(atual.getNome());
+                            }
+                            if (diff == 0) {
+                                engine.getUi().SoudCheckPlay();
+                            }
 
 
-                        indiceAtual++;
-                        realizarAposta(jogadores, proximaEtapa);
-                        return;
-                    }
-
-
-                    case "fold": {
-                        atual.setFold(true);
-                        jogadores.remove(indiceAtual);
-                        atual.resetMao();
-                        engine.getUi().SoudFoldPlay();
-                        engine.getUi().limpaMaoFold(atual.getNome());
-                        if(jogadores.size()==1){
-                            interromperApostas = true;
-                            proximaEtapa.run();
+                            indiceAtual++;
+                            engine.getUi().bordaDesativada(atual.getNome());
+                            realizarAposta(jogadores, proximaEtapa);
                             return;
                         }
-                        if (indiceAtual >= jogadores.size()) {
-                            indiceAtual = 0;
+
+
+                        case "fold": {
+                            atual.setFold(true);
+                            jogadores.remove(indiceAtual);
+                            atual.resetMao();
+                            engine.getUi().SoudFoldPlay();
+                            engine.getUi().limpaMaoFold(atual.getNome());
+                            if (jogadores.size() == 1) {
+                                interromperApostas = true;
+                                proximaEtapa.run();
+                                return;
+                            }
+                            if (indiceAtual >= jogadores.size()) {
+                                indiceAtual = 0;
+                            }
+                            engine.getUi().bordaDesativada(atual.getNome());
+                            realizarAposta(jogadores, proximaEtapa);
+                            return;
                         }
 
-                        realizarAposta(jogadores, proximaEtapa);
-                        return;
+
+                        default: {
+                            int valor = Integer.parseInt(resposta);
+
+                            atual.apostar(valor);
+                            engine.mesa.addPote(valor);
+
+
+                            if (atual.getApostaRodada().get() > maiorAposta)
+                                maiorAposta = atual.getApostaRodada().get();
+
+                            engine.getUi().mostrarPoteBot(atual.getNome());
+                            indiceAtual++;
+                            engine.getUi().bordaDesativada(atual.getNome());
+                            realizarAposta(jogadores, proximaEtapa);
+                            return;
+                        }
                     }
+                });
 
+                pause.play();
 
-                    default: {
-                        int valor = Integer.parseInt(resposta);
-
-                        atual.apostar(valor);
-                        engine.mesa.addPote(valor);
-
-
-                        if (atual.getApostaRodada().get() > maiorAposta)
-                            maiorAposta = atual.getApostaRodada().get();
-
-                        engine.getUi().mostrarPoteBot(atual.getNome());
-                        indiceAtual++;
-                        realizarAposta(jogadores, proximaEtapa);
-                        return;
-                    }
-                }
-            });
-
-            pause.play();
         }
 
         else {
             // é o jogador real
 
-
+            engine.getUi().bordaAtiva("jogador");
             engine.getUi().habilitarBotoes(true); // libera os botoes dele
 
             engine.getUi().configurarBotoes(atual, jogadores, this, proximaEtapa); // lugar que fica os botoes
@@ -154,6 +159,7 @@ public class GerenciarAposta {
             maiorAposta = jogador.getApostaRodada().get();
         }
 
+        engine.getUi().bordaDesativada("jogador");
         realizarAposta(jogadores, proximaEtapa);
     }
 
@@ -177,7 +183,7 @@ public class GerenciarAposta {
         if (indiceAtual >= jogadores.size()) {
             indiceAtual = 0;
         }
-
+        engine.getUi().bordaDesativada("jogador");
         realizarAposta(jogadores, proximaEtapa);
     }
 
@@ -200,7 +206,6 @@ public class GerenciarAposta {
     public void confirmarAposta(Jogador jogador, List<Jogador> jogadores, Runnable proximaEtapa) {
 
        // quando clica no boatao apostar ele realiza a aposta
-
 
 
         System.out.println(jogador.getNome() + " confirmou aposta de " + apostaTemp);
