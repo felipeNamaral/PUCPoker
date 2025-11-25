@@ -19,7 +19,7 @@ public class Jogador {
     private final String nome;
     protected  List<Card> mao = new ArrayList<>();
     protected  List<Card> maoFinal = new ArrayList<>();
-    private boolean ativo = true;
+    private boolean allin = false;
     private boolean fold = false;
     private final IntegerProperty apostaRodada = new SimpleIntegerProperty();
 
@@ -117,6 +117,7 @@ public class Jogador {
     public void  apostar(int valor){
         fichas.set(fichas.get()-valor);
         apostaRodada.set(apostaRodada.get()+valor);
+
     }
 
 
@@ -178,6 +179,15 @@ public class Jogador {
         maoFinal.clear();
         this.maoFinal.addAll(mao);
         this.maoFinal.addAll(maoDamesa);
+    }
+
+
+    public boolean isAllin() {
+        return allin;
+    }
+
+    public void setAllin(boolean allin) {
+        this.allin = allin;
     }
 }
 

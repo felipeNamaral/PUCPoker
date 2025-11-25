@@ -9,6 +9,7 @@ module com.poker.poker {
     requires google.genai;
     requires javafx.base;
     requires com.google.gson;
+    requires java.dotenv;
 
     opens com.poker.poker to javafx.fxml;
     exports com.poker.poker;

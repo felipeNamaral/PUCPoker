@@ -59,6 +59,7 @@ public class CriaJson {
                 "- Considere a textura da mesa, o tamanho do pote e a força relativa da sua mão.\n" +
                 "- **Regra importante sobre apostas já iguais:** se a sua aposta atual na rodada for **igual** à `maior_aposta`, isso significa que você já está igualado — **NÃO** retorne \"fold\". Nessa situação, retorne \"call\" (ou um número para raise) — nunca \"fold\" por causa dessa igualdade.\n"+
                 "\n" +
+                "você nao pode ficar com fichas negativas entao ,nao aposte valores que deixam a ficha menor que 0\n"+
                 "TENDÊNCIA:\n" +
                 "- Jogador agressivo: usa raise como principal ferramenta.\n" +
                 "- Call é opção secundária.\n" +

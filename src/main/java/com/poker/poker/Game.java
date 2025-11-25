@@ -207,7 +207,7 @@ public class Game {
         bot1fichas.textProperty().bind(jbot1.fichasProperty().asString("Fichas: %d"));
         bot1fichas.getStyleClass().add("fichas");
         bot1fichas.relocate(60,300);
-        bot1.getChildren().addAll(avatarViewbot1,cartasBot1,bot1fichas);
+        bot1.getChildren().addAll(avatarContainerBot1,cartasBot1,bot1fichas);
 
         VBox potebot1  = new VBox();
         potebot1.getStyleClass().add("poteJogador");
@@ -218,12 +218,6 @@ public class Game {
         potedobot1.textProperty().bind(jbot1.getApostaRodada().asString("%d"));
         potebot1.relocate(350,screenBounds.getHeight()-450);
         potebot1.getChildren().addAll(montefichasviewbot1,potedobot1);
-
-
-
-
-
-
 
 
 

@@ -1,15 +1,18 @@
 package com.poker.poker;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.ImageView;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
-
+import javafx.util.Duration;
+import javafx.scene.paint.Color;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -94,6 +97,7 @@ public class InterfaceController {
     public void habilitarBotoes(boolean habilitar) {
         bts.setDisable(!habilitar);
         hboxFichas.setDisable(!habilitar);
+        apostar.setDisable(true);
     }
 
 
@@ -143,30 +147,35 @@ public class InterfaceController {
         dez.setOnAction(e ->{
             mostrarPoteJogador();
             gerenciarAposta.adicionarFicha(jogador, 10);
+            apostar.setDisable(false);
         });
         vinteCinco.setOnAction(e ->
         {
             mostrarPoteJogador();
             gerenciarAposta.adicionarFicha(jogador, 25);
+            apostar.setDisable(false);
         });
         cinquenta.setOnAction(e -> {
             mostrarPoteJogador();
             gerenciarAposta.adicionarFicha(jogador, 50);
+            apostar.setDisable(false);
         });
         cem.setOnAction(e ->
         {
             mostrarPoteJogador();
             gerenciarAposta.adicionarFicha(jogador, 100);
+            apostar.setDisable(false);
         });
         quinhentos.setOnAction(e ->
         {
             mostrarPoteJogador();
             gerenciarAposta.adicionarFicha(jogador, 500);
+            apostar.setDisable(false);
         });
 
             fold.setOnAction(e -> {SoudFoldPlay();gerenciarAposta.jogadorFold(jogador, jogadores, proximaEtapa);});
-        apostar.setOnAction(e -> gerenciarAposta.confirmarAposta(jogador, jogadores, proximaEtapa));
-        call.setOnAction(e -> {
+            apostar.setOnAction(e -> gerenciarAposta.confirmarAposta(jogador, jogadores, proximaEtapa));
+            call.setOnAction(e -> {
 
             pararBarraTempo();
 
@@ -258,7 +267,7 @@ public class InterfaceController {
     }
 
     public void bordaAtiva(String nome) {
-        String style = "-fx-border-color: #FFD700; -fx-border-width: 1.5; -fx-border-radius: 100; -fx-background-radius: 12;";
+        String style = "-fx-border-color: #FFD700; -fx-border-width: 2; -fx-border-radius: 100; -fx-background-radius: 12;";
         switch (nome) {
             case "jbot1" -> bot1.setStyle(style);
             case "jbot2" -> bot2.setStyle(style);
@@ -277,8 +286,36 @@ public class InterfaceController {
         }
     }
 
+    public void bordaDoGanhador(String nome) {
+        Pane avatarPane = switch (nome) {
+            case "jbot1" -> bot1;
+            case "jbot2" -> bot2;
+            case "jbot3" -> bot3;
+            case "jogador" -> player;
+            default -> null;
+        };
+
+        if (avatarPane == null) return;
+
+        DropShadow ds = new DropShadow(20, Color.GOLD);
+        ds.setSpread(0.5);
+        avatarPane.setEffect(ds);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(ds.radiusProperty(), 10)),
+                new KeyFrame(Duration.seconds(0.1), new KeyValue(ds.radiusProperty(), 30)),
+                new KeyFrame(Duration.seconds(4), new KeyValue(ds.radiusProperty(), 10))
+        );
+        timeline.setCycleCount(2);
+        timeline.setOnFinished(e-> avatarPane.setEffect(null));
+        timeline.play();
+    }
 
 
+
+    public Button getCall() {
+        return call;
+    }
 }
 
 

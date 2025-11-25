@@ -2,6 +2,7 @@ package com.poker.poker;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.animation.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,7 +14,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JogadorBot extends Jogador {
-    Client client = Client.builder().apiKey(""/*System.getenv("GEMINI_API_KEY")*/).build();
+
+    Dotenv dotenv = Dotenv.load();
+    Client client = Client.builder().apiKey(dotenv.get("API_KAY")).build();
 
 
     public JogadorBot(String nome){

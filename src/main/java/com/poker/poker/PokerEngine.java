@@ -70,6 +70,15 @@
             Jogador aux = jogadores.remove(0);
             jogadores.add(aux);
 
+            jogadores.removeIf(j -> j.getFichas() == 0);
+            if(jogador.getFichas()==0){
+                encerraPartida();
+                return;
+            }
+            if(jogadores.size()==1){
+                encerraPartida();
+                return;
+            }
 
             iniciaPartida();
 
@@ -78,6 +87,9 @@
         }
 
         public  void encerraPartida(){
+            // aparecer tela de fim de jogo dai pergunta se quer jogar novamente
+
+
 
         }
 
@@ -85,17 +97,12 @@
         private void distribuiCartas(Runnable onFinish){
 
 
-                jogador.fistHand(baralho.dealCard(),baralho.dealCard());
-                jbot1.fistHand(baralho.dealCard(),baralho.dealCard());
-                jbot2.fistHand(baralho.dealCard(),baralho.dealCard());
-                jbot3.fistHand(baralho.dealCard(),baralho.dealCard());
 
+                for(Jogador j : jogadores){
+                    j.fistHand(baralho.dealCard(),baralho.dealCard());
+                    ui.atualizarCartasJogador(j);
+                }
 
-
-                ui.atualizarCartasJogador(jogador);
-                ui.atualizarCartasJogador(jbot1);
-                ui.atualizarCartasJogador(jbot2);
-                ui.atualizarCartasJogador(jbot3);
 
                 PauseTransition pause = new PauseTransition(Duration.seconds(10));
                 pause.setOnFinished(e->{
