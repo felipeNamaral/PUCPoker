@@ -286,6 +286,15 @@ public class InterfaceController {
         }
     }
 
+    public void bordaDesativadaTodos() {
+            String style = "-fx-border-width: 0; -fx-border-color: transparent;";
+            bot1.setStyle(style);
+            bot2.setStyle(style);
+            bot3.setStyle(style);
+            player.setStyle(style);
+
+    }
+
     public void bordaDoGanhador(String nome) {
         Pane avatarPane = switch (nome) {
             case "jbot1" -> bot1;

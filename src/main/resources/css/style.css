@@ -1,27 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 .fundo{
-        -fx-background-image: url("../images/poke.jpg");
-        -fx-background-size: cover;
-        -fx-background-position: center;
-        -fx-background-repeat: no-repeat;
+    -fx-background-image: url("../images/novoFundo.png");
+    -fx-background-size: 100% 100%;   /* preenche tudo sem cortar */
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
 }
 
-.titulo{
-    -fx-translate-y: -150px;
-    -fx-translate-x: 290px;
-    -fx-text-fill: gold;  /* cor principal */
-    -fx-font-size: 200px;
-    -fx-font-family: "Playfair Display", serif;
-    -fx-text-alignment: center;
 
-    /* sombra para borda preta */
--fx-effect: dropshadow(gaussian, rgb(0, 0, 0), 4, 0.7, 0, 0)
-            , dropshadow(three-pass-box, rgb(0, 0, 0), 5, 0, 0, 8)
-            , innershadow(gaussian, rgb(0, 0, 0), 4, 0.7, 0, 0);
-
+.botao-musica {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-padding: 0;
 }
-
 
 
 .botao {
@@ -144,5 +137,47 @@
     -fx-text-fill:#ffffff;
 }
 
+.fim{
+        -fx-background-image: url("../images/poke.jpg");
+        -fx-background-size: cover;
+        -fx-background-position: center;
+        -fx-background-repeat: no-repeat;
+}
+
+
+.txt {
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(#ffd700, #ffae00);
+    -fx-alignment: center;
+}
+
+
+.vboxFim {
+    -fx-background-color: rgba(0, 0, 0, 0.55);
+    -fx-padding: 40px;
+    -fx-spacing: 25px;
+    -fx-alignment: center;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.35);
+    -fx-border-width: 2px;
+}
+
+.botaoFim {
+    -fx-background-color: #C41E3A;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-family: "BBH Sans Bartle", sans-serif;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 3);
+    -fx-pref-width: 300px;
+    -fx-pref-height: 80px;
+}
+
+.botaoFim:hover {
+    -fx-background-color: #560c0c;
+}
 
 

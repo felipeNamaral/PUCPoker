@@ -15,7 +15,7 @@ import javafx.stage.Screen;
 import javafx.util.Duration;
 
 public class Jogador {
-    private  SimpleIntegerProperty fichas = new SimpleIntegerProperty(20000);
+    private final SimpleIntegerProperty fichas = new SimpleIntegerProperty(10000);
     private final String nome;
     protected  List<Card> mao = new ArrayList<>();
     protected  List<Card> maoFinal = new ArrayList<>();
@@ -167,9 +167,7 @@ public class Jogador {
         return apostaRodada;
     }
 
-    public void setApostaRodada(int valor) {
-        apostaRodada.set(valor);
-    }
+
 
     public List<Card> getMaoFinal() {
         return maoFinal;

@@ -2,6 +2,7 @@
 
 
     import javafx.animation.PauseTransition;
+    import javafx.stage.Stage;
     import javafx.util.Duration;
     import java.util.ArrayList;
     import java.util.Arrays;
@@ -16,14 +17,16 @@
         private  DeckOfCards baralho;
         private final InterfaceController ui;
         protected final List<Jogador> jogadores = new ArrayList<>();
+        private Stage stage;
 
-        public PokerEngine(Jogador jogador, JogadorBot jbot1, JogadorBot jbot2, JogadorBot jbot3, InterfaceController ui)
+        public PokerEngine(Jogador jogador, JogadorBot jbot1, JogadorBot jbot2, JogadorBot jbot3, InterfaceController ui, Stage stage)
         {
             this.jogador = jogador;
             this.jbot1 = jbot1;
             this.jbot2 = jbot2;
             this.jbot3 = jbot3;
             this.ui = ui;
+            this.stage=stage;
             jogadores.clear();
             jogadores.addAll(Arrays.asList(jbot2, jogador, jbot3, jbot1));
 
@@ -70,8 +73,8 @@
             Jogador aux = jogadores.remove(0);
             jogadores.add(aux);
 
-            jogadores.removeIf(j -> j.getFichas() == 0);
-            if(jogador.getFichas()==0){
+            jogadores.removeIf(j -> j.getFichas() <= 0);
+            if(jogador.getFichas()<=0){
                 encerraPartida();
                 return;
             }
@@ -87,8 +90,11 @@
         }
 
         public  void encerraPartida(){
-            // aparecer tela de fim de jogo dai pergunta se quer jogar novamente
 
+            TelaFinal finale = new TelaFinal();
+            Boolean venceu;
+            venceu= jogador.getFichas() > 0;
+            stage.setScene(finale.criarTelaFinal(stage,venceu));
 
 
         }

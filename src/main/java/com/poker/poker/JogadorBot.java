@@ -10,9 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class JogadorBot extends Jogador {
 
     Dotenv dotenv = Dotenv.load();
@@ -23,22 +20,30 @@ public class JogadorBot extends Jogador {
         super(nome);
     }
 
-    public String sendIA(String gamestatus){
+    public String sendIA(String gamestatus) {
+
+
 
         try {
+            System.out.println("entrou na ia ");
+            System.out.println("Tamanho do gamestatus: " + gamestatus.length());
 
-            GenerateContentResponse response = client.models.generateContent(
-                    "gemini-2.5-flash",
-                    gamestatus,
-                    null
-            );
-            System.out.println("IA respondeu: " + response.text());
-            return response.text().trim().toLowerCase();
 
-        } catch (com.google.genai.errors.ServerException se) {
-            System.err.println("Erro de servidor: " + se.getMessage());
+            GenerateContentResponse resp =
+                    client.models.generateContent("gemini-2.0-flash", gamestatus, null);
 
-            return "call";
+            String resposta = resp.text().trim().toLowerCase();
+
+            System.out.println("IA respondeu: " + resposta);
+
+            if (resposta.length() > 5||resposta.equals("raise")) {
+                return "call";
+            }
+
+
+            return resposta;
+
+
         } catch (Exception e) {
             e.printStackTrace();
             return "call";

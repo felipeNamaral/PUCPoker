@@ -33,7 +33,7 @@ public class Game {
     }
 
     private void startGame(Stage stage){
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+
 
 
 
@@ -46,7 +46,7 @@ public class Game {
 
         Pane player = new Pane();
         player.setPrefSize(400, 250);
-        player.relocate(screenBounds.getWidth()-600,screenBounds.getHeight()-300);
+        player.relocate(936,564);
         Image playerAvatar = new Image(Objects.requireNonNull(getClass().getResource("/images/usuario.png")).toExternalForm());
         ImageView avatarView = new ImageView(playerAvatar);
         avatarView.setFitWidth(150);
@@ -91,7 +91,7 @@ public class Game {
         montefichasview.setPreserveRatio(true);
         Label potedoJogador = new Label();
         potedoJogador.textProperty().bind(jogador.getApostaRodada().asString("%d"));
-        poteJogador.relocate(screenBounds.getWidth()-500,screenBounds.getHeight()-350);
+        poteJogador.relocate(1036,514);
         poteJogador.getChildren().addAll(montefichasview,potedoJogador);
 
 
@@ -188,7 +188,7 @@ public class Game {
 
         Pane bot1 = new Pane();
         bot1.setPrefSize(250, 300);
-        bot1.relocate(15,screenBounds.getHeight()-650);
+        bot1.relocate(15,214);
         Image bot1Avatar = new Image(Objects.requireNonNull(getClass().getResource("/images/avatar-main2.png")).toExternalForm());
         ImageView avatarViewbot1 = new ImageView(bot1Avatar);
         avatarViewbot1.setFitWidth(150);
@@ -216,14 +216,14 @@ public class Game {
         montefichasviewbot1.setPreserveRatio(true);
         Label potedobot1 = new Label();
         potedobot1.textProperty().bind(jbot1.getApostaRodada().asString("%d"));
-        potebot1.relocate(350,screenBounds.getHeight()-450);
+        potebot1.relocate(350,414);
         potebot1.getChildren().addAll(montefichasviewbot1,potedobot1);
 
 
 
         Pane bot2 = new Pane();
         bot2.setPrefSize(250, 300);
-        bot2.relocate(screenBounds.getWidth()-275,screenBounds.getHeight()-650);
+        bot2.relocate(1261,214);
         Image bot2Avatar = new Image(Objects.requireNonNull(getClass().getResource("/images/avatarw.png")).toExternalForm());
         ImageView avatarViewbot2 = new ImageView(bot2Avatar);
         avatarViewbot2.setFitWidth(150);
@@ -251,7 +251,7 @@ public class Game {
         montefichasviewbot2.setPreserveRatio(true);
         Label potedobot2 = new Label();
         potedobot2.textProperty().bind(jbot2.getApostaRodada().asString("%d"));
-        potebot2.relocate(screenBounds.getWidth()-350,screenBounds.getHeight()-450);
+        potebot2.relocate(1186,414);
         potebot2.getChildren().addAll(montefichasviewbot2,potedobot2);
 
 
@@ -265,7 +265,7 @@ public class Game {
 
         Pane bot3 = new Pane();
         bot3.setPrefSize(400, 250);
-        bot3.relocate(screenBounds.getWidth()-1300,screenBounds.getHeight()-300);
+        bot3.relocate(236,564);
         Image playerAvatarbot3 = new Image(Objects.requireNonNull(getClass().getResource("/images/avatar-main.png")).toExternalForm());
         ImageView avatarViewbot3 = new ImageView(playerAvatarbot3);
         avatarViewbot3.setFitWidth(150);
@@ -293,7 +293,7 @@ public class Game {
         potebot3.getStyleClass().add("poteJogador");
         Label potedobot3 = new Label();
         potedobot3.textProperty().bind(jbot3.getApostaRodada().asString("%d"));
-        potebot3.relocate(screenBounds.getWidth()-1100,screenBounds.getHeight()-350);
+        potebot3.relocate(436,514);
         potebot3.getChildren().addAll(montefichasviewbot3,potedobot3);
 
 
@@ -304,7 +304,7 @@ public class Game {
 
         Pane mesa = new Pane();
         mesa.setPrefSize(600, 200);
-        mesa.relocate(screenBounds.getWidth()/2-300,screenBounds.getHeight()/2-95);
+        mesa.relocate(468,337);
         HBox cartasMesa = new HBox(15);
         cartasMesa.setPrefSize(100,200);
         cartasMesa.relocate(72,40);
@@ -341,7 +341,7 @@ public class Game {
 
 
         PokerEngine engine = new PokerEngine(
-                jogador, jbot1, jbot2, jbot3 , ui
+                jogador, jbot1, jbot2, jbot3 , ui,stage
         );
 
 

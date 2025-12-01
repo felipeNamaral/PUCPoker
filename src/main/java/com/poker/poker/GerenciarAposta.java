@@ -4,6 +4,7 @@
     import javafx.util.Duration;
 
     import java.util.List;
+    import java.util.Objects;
 
     public class GerenciarAposta {
 
@@ -12,6 +13,8 @@
         private int apostaTemp = 0;
         private int maiorAposta=100 ;
         private boolean interromperApostas = false;
+        private String ultimoARaise;
+
 
         public GerenciarAposta(PokerEngine engine) {
             this.engine = engine;
@@ -25,8 +28,8 @@
 
             this.indiceAtual = 0;
             this.apostaTemp = 0;
-
-
+            engine.getUi().bordaDesativadaTodos();
+            ultimoARaise = null;
             realizarAposta(jogadores, proximaEtapa);
         }
 
@@ -42,12 +45,21 @@
 
 
             if (indiceAtual >= jogadores.size()) {
+
+                // jog da rodada atual antes de resetar:
+                Jogador inicioRodada = jogadores.get(0);
+
                 indiceAtual = 0;
-                if(todosApostasValidas(jogadores)){
-                    proximaEtapa.run();  // retorna para rodada
+
+                if (todosApostasValidas(jogadores) ||
+                        voltouAoUltimoRaise(inicioRodada.getNome())) {
+
+                    proximaEtapa.run();
                     return;
                 }
             }
+
+
 
 
 
@@ -74,6 +86,10 @@
 
                         System.out.println(atual.getNome() + ":" + resposta);
 
+                        if (resposta.equals("fold") && atual.getApostaRodada().get() == maiorAposta) {
+                            resposta = "call";
+                        }
+
                         switch (resposta) {
 
                             case "call": {
@@ -81,17 +97,23 @@
                                 int diff = maiorAposta - atual.getApostaRodada().get();
 
                                 if (diff > 0) {
+                                    if (diff >= atual.getFichas()) {
+                                        diff = atual.getFichas();
+                                        atual.setAllin(true);
+                                    }
+
                                     atual.apostar(diff);
                                     engine.mesa.addPote(diff);
                                     engine.getUi().mostrarPoteBot(atual.getNome());
-                                }
-                                if (diff == 0) {
+
+                                } else {
+                                    // diff == 0
                                     engine.getUi().SoudCheckPlay();
                                 }
+
                                 if (atual.getFichas() == 0) {
                                     atual.setAllin(true);
                                 }
-
 
                                 indiceAtual++;
                                 engine.getUi().bordaDesativada(atual.getNome());
@@ -123,6 +145,12 @@
                             default: {
                                 int valor = Integer.parseInt(resposta);
 
+                                if (valor >= atual.getFichas()) {
+                                    valor = atual.getFichas();
+                                    atual.setAllin(true);
+                                }
+
+
                                 atual.apostar(valor);
                                 engine.mesa.addPote(valor);
 
@@ -131,9 +159,10 @@
                                 }
 
 
-                                if (atual.getApostaRodada().get() > maiorAposta)
+                                if (atual.getApostaRodada().get() > maiorAposta){
                                     maiorAposta = atual.getApostaRodada().get();
-
+                                    ultimoARaise = atual.getNome();
+                                 }
                                 engine.getUi().mostrarPoteBot(atual.getNome());
                                 indiceAtual++;
                                 engine.getUi().bordaDesativada(atual.getNome());
@@ -191,6 +220,7 @@
 
             if (jogador.getApostaRodada().get() > maiorAposta) {
                 maiorAposta = jogador.getApostaRodada().get();
+                ultimoARaise = jogador.getNome();
             }
 
             engine.getUi().bordaDesativada("jogador");
@@ -297,7 +327,9 @@
 
             return true;
         }
-
+        private boolean voltouAoUltimoRaise(String nome) {
+            return Objects.equals(nome, ultimoARaise);
+        }
 
 
             private  boolean todosAllin(List<Jogador> jogadores){

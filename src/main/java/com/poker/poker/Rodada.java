@@ -23,7 +23,7 @@
         public void iniciar() {
 
             Jogador bb = jogadoresAtivos.get(jogadoresAtivos.size() - 2);
-            int valorBB = 100;
+            int valorBB = 50;
             if (bb.getFichas() >= valorBB) {
                 bb.apostar(valorBB);
                 engine.mesa.addPote(valorBB);
@@ -36,7 +36,7 @@
 
 
             Jogador sb = jogadoresAtivos.get(jogadoresAtivos.size() - 1);
-            int valorSB = 50;
+            int valorSB = 100;
             if (sb.getFichas() >= valorSB) {
                 sb.apostar(valorSB);
                 engine.mesa.addPote(valorSB);
