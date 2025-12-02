@@ -29,11 +29,22 @@ public class InterfaceController {
     private final HBox bts, hboxFichas;
     private  final ProgressBar barraTempo;
     private AnimationTimer barraTimer;
-    AudioClip dropChips = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/drop_Chips.mp3")).toExternalForm()) ;
-    AudioClip checkSoud = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/Bater.mp3")).toExternalForm()) ;
-    AudioClip foldSoud = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/fold.mp3")).toExternalForm()) ;
-    AudioClip winSound = new AudioClip(Objects.requireNonNull(getClass().getResource("/sounds/vitoria.mp3")).toExternalForm()) ;
-    private final VBox poteJogador,potebot1,potebot2,potebot3;
+    AudioClip dropChips = new AudioClip(
+            Objects.requireNonNull(InterfaceController.class.getResource("/sounds/drop_Chips.mp3"))
+                    .toExternalForm()
+    );
+    AudioClip checkSoud = new AudioClip(
+            Objects.requireNonNull(InterfaceController.class.getResource("/sounds/Bater.mp3"))
+                    .toExternalForm()
+    );
+    AudioClip foldSoud = new AudioClip(
+            Objects.requireNonNull(InterfaceController.class.getResource("/sounds/fold.mp3"))
+                    .toExternalForm()
+    );
+    AudioClip winSound = new AudioClip(
+            Objects.requireNonNull(InterfaceController.class.getResource("/sounds/vitoria.mp3"))
+                    .toExternalForm()
+    );   private final VBox poteJogador,potebot1,potebot2,potebot3;
 
     public InterfaceController(HBox cartasJogador, HBox cartasMesa, HBox cartasBot1, HBox cartasBot2, HBox cartasBot3, Button call, Button fold, Button apostar, Button dez, Button vinteCinco, Button cinquenta, Button cem, Button quinhentos,
                                HBox bts, HBox hboxFichas, ProgressBar barraTempo, VBox poteJogador,VBox potebot1,VBox potebot2,VBox potebot3,Pane player,Pane bot1,Pane bot2,Pane bot3) {

@@ -49,7 +49,7 @@ public class CriaJson {
 
         // ---------------- INSTRUÇÃO PARA IA ----------------
         root.addProperty("instrucao",
-                "Você é um bot TAG agressivo. Prefira raise; call é secundário; " +
+                "Você é um bot TAG agressivo. Prefira raise; call é secundário;voce pode blefar aumentado o valor  " +
                         "fold só com mão fraca e sem draw. Com força média/forte ou bons draws: raise.,se sua aposta for igual a maior_aposta nunca de fold " +
                         "Se sua aposta atual já for igual à maior_aposta, nunca retorne fold—use call ou raise. " +
                         "Nunca aposte mais do que suas fichas. Responda apenas: call, fold ou número para raise ex: '350'.NUNCA retorne texto explicativo");

@@ -13,7 +13,7 @@ import javafx.util.Duration;
 public class JogadorBot extends Jogador {
 
     Dotenv dotenv = Dotenv.load();
-    Client client = Client.builder().apiKey(dotenv.get("API_KAY")).build();
+    Client client = Client.builder().apiKey(dotenv.get("API_KAY2")).build();
 
 
     public JogadorBot(String nome){
