@@ -7,6 +7,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class TelaFinal {
 
     public Scene criarTelaFinal(Stage stage, boolean venceu) {
@@ -40,7 +42,7 @@ public class TelaFinal {
         });
 
         Scene cena = new Scene(fim, 1536, 864);
-        cena.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        cena.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm());
         return cena;
     }
 }
